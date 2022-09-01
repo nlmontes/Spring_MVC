@@ -42,17 +42,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		
 	    BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 	    
-	    UserDetails user =
-	    		User.builder()
-	    			.username("joao")
-	    			.password(encoder.encode("1234"))
-	    			.roles("ADM")
-	    			.build();
+//	    UserDetails user =
+//	    		User.builder()
+//	    			.username("maria")
+//	    			.password(encoder.encode("1234"))
+//	    			.roles("ADM")
+//	    			.build();
 		
 		auth.jdbcAuthentication()
 			.dataSource(dataSource)
-			.passwordEncoder(encoder)
-			.withUser(user);
+			.passwordEncoder(encoder);
+			//.withUser(user);
 	}
 
 //	@Bean
