@@ -12,18 +12,42 @@
 	são usados para conter, preencher e (às vezes) centralizar o conteúdo dentro deles. -->
 	<div class="container">
 
-		<div th:replace="~{base :: titulo('Últimos Pedidos')}"></div>
+		<div th:replace="~{base :: titulo('Meus Pedidos')}"></div>
+
+		<nav
+			class="navbar navbar-expand navbar-light bg-light d-flex justify-content-between mb-3">
+			<div>
+				<ul class="navbar-nav">
+					<a th:classappend="${status} == null ? 'active'" class="nav-item nav-link" th:href="@{/usuario/pedido}">Todos</a>
+					<a th:classappend="${status} == 'aguardando' ? 'active'" class="nav-item nav-link" th:href="@{/usuario/pedido/aguardando}">Aguardando</a>
+					<a th:classappend="${status} == 'aprovado' ? 'active'" class="nav-item nav-link" th:href="@{/usuario/pedido/aprovado}">Aprovado</a>
+					<a th:classappend="${status} == 'entregue' ? 'active'" class="nav-item nav-link" th:href="@{/usuario/pedido/entregue}">Entregue</a>
+				</ul>
+			</div>
+
+			<a href="/pedido/formulario"><button class="btn btn-secondary">Novo</button></a>
+
+		</nav>
 
 		<!-- th:tag para usar o thymeleaf. Nesse caso, usa o each para iterar dentro da lista pedidos -->
 		<!-- class card: os cart�es fornecem um cont�iner de conte�do flex�vel e extens�vel com v�rias variantes e op��es redimension�veis -->
 		<div class="card mb-3" th:each="pedido : ${pedidos}">
 
-			<!-- Usando a tag th:text, os textos passados como parâmetro (expression language) substituem os textos padr�o dos elementos-->
-			<!-- "${pedido.nomeProduto}": expression language do thymeleaf -->
-			<!-- class card-header: fornece um estilo diferenciado ao cabeçalho do card -->
-			<div class="card-header alert-dark"
-				th:text="${pedido.nomeProduto}">Nome do Produto</div>
+			<th:block th:switch="${pedido.status.name()}">
 
+				<!-- Usando a tag th:text, os textos passados como parâmetro (expression language) substituem os textos padr�o dos elementos-->
+				<!-- "${pedido.nomeProduto}": expression language do thymeleaf -->
+				<!-- class card-header: fornece um estilo diferenciado ao cabeçalho do card -->
+				<div th:case="AGUARDANDO" class="card-header alert-warning"
+					th:text="${pedido.nomeProduto}">Nome do Produto</div>
+
+				<div th:case="APROVADO" class="card-header alert-success"
+					th:text="${pedido.nomeProduto}">Nome do Produto</div>
+
+				<div th:case="ENTREGUE" class="card-header alert-dark"
+					th:text="${pedido.nomeProduto}">Nome do Produto</div>
+
+			</th:block>
 
 			<!-- class card-body: envolve o conteudo e aplica algumas margens internas -->
 			<div class="card-body">
@@ -37,12 +61,10 @@
 
 						<div class="row">
 							<div class="col-md-5">
-								Valor: <span th:if="${pedido.valorNegociado} != null"
-									th:text="${'R$ ' + #numbers.formatDecimal(pedido.valorNegociado,3,'POINT',2,'COMMA')}">200,99</span>
+								Valor: <span th:if="${pedido.valorNegociado} != null" th:text="${'R$ ' + #numbers.formatDecimal(pedido.valorNegociado,3,'POINT',2,'COMMA')}">200,99</span>
 							</div>
 							<div class="col-md-7">
-								Data da Entrega: <span
-									th:text="${#temporals.format(pedido.dataEntrega, 'dd/MM/yyyy')}">10/02/2002</span>
+								Data da Entrega: <span th:text="${#temporals.format(pedido.dataEntrega, 'dd/MM/yyyy')}">10/02/2002</span>
 							</div>
 						</div>
 

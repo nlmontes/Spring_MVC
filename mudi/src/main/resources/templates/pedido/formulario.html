@@ -13,8 +13,9 @@
 
 		<div class="card mt-3">
 			<!-- ${} = acessa um objeto (atributo da requisi��o), que � o objeto requisi��oNovoPedido  -->
-			<form th:object="${requisicaoNovoPedido}" class="card-body"
-				action="/pedido/novo" method="post">
+			<!-- th:action = @{/uri} = insere o contexto dinamicamente localhost:8080/contexto/uri -->
+			<form th:action="@{/pedido/novo}" th:object="${requisicaoNovoPedido}" class="card-body"
+				method="post">
 				<div class="form-group">
 					<label for="nomeProduto">Produto</label>
 					<!-- *{} = acessa um campo (atributo do objeto), que � o atributo nomeProduto  -->

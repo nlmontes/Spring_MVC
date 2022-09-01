@@ -3,9 +3,6 @@ package br.com.alura.mvc.mudi.controller;
 import java.security.Principal;
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,8 +27,8 @@ public class HomeController {
 	@Autowired
 	private PedidoRepository repository;
 
-	@PersistenceContext
-	private EntityManager em;
+//	@PersistenceContext
+//	private EntityManager em;
 
 	// @GetMapping: Informa ao Spring que é uma url
 	@GetMapping //mapeia para /home
@@ -56,26 +53,10 @@ public class HomeController {
 		//List<Pedido> pedidos = repository.findAll();
 		
 		
-		List<Pedido> pedidos = repository.findByUser(principal.getName());
+		List<Pedido> pedidos = repository.findByStatus(StatusPedido.ENTREGUE);
 
 		model.addAttribute("pedidos", pedidos);
 
 		return "home";
 	}
-	
-	@GetMapping("/{status}") //mapeia de acordo com o status a partir de /home/status
-	public String porStatus(@PathVariable("status") String status, Model model) {
-		
-		List<Pedido> pedidos = repository.findByStatus(StatusPedido.valueOf(status.toUpperCase()));
-		model.addAttribute("pedidos", pedidos);
-		model.addAttribute("status", status);
-		return "home";
-		
-	}
-	
-	@ExceptionHandler(IllegalArgumentException.class)
-	public String onerror() {
-		return "redirect:/home";
-	}
-
 }
