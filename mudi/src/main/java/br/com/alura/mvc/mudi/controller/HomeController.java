@@ -1,5 +1,6 @@
 package br.com.alura.mvc.mudi.controller;
 
+import java.security.Principal;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -34,7 +35,7 @@ public class HomeController {
 
 	// @GetMapping: Informa ao Spring que é uma url
 	@GetMapping //mapeia para /home
-	public String home(Model model) {
+	public String home(Model model, Principal principal) {
 
 //		Pedido pedido = new Pedido();
 //		pedido.setNomeProduto("Kindle");
@@ -52,7 +53,10 @@ public class HomeController {
 		//List<Pedido> pedidos = repositoryJpa.recuperaTodosPedidos();
 
 		// Usando Spring Data
-		List<Pedido> pedidos = repository.findAll();
+		//List<Pedido> pedidos = repository.findAll();
+		
+		
+		List<Pedido> pedidos = repository.findByUser(principal.getName());
 
 		model.addAttribute("pedidos", pedidos);
 

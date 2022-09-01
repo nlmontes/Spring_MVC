@@ -6,13 +6,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
-@RequestMapping("/login")
+//@RequestMapping("/login")
 public class LoginController {
 	
-	@GetMapping
-	//@RequestMapping("/login")
+	//@GetMapping
+	@RequestMapping("/login")
 	public String login() {
 		return "login";
 	}
+	
+	//@GetMapping
+	//@RequestMapping(value = "/logout", method=RequestMethod.POST)
+//	@RequestMapping("/logout")
+//	public String logout() {
+//		return "login";
+//	}
 
 }
