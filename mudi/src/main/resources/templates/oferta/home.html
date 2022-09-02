@@ -1,0 +1,101 @@
+<html>
+
+<!-- ~{} = acessar um fragmento de outra pagina -->
+<head th:replace="~{base :: head}">
+</head>
+
+<body onload="onLoad()">
+
+	<div th:replace="~{base :: logo}"></div>
+
+	<div class="container" id="ofertas">
+
+		<div th:replace="~{base :: titulo('Faça sua Oferta')}"></div>
+
+		<div class="card mb-3" v-for="pedido in pedidos">
+
+			<div class="card-header alert-dark">{{pedido.nomeProduto}}</div>
+
+
+			<!-- class card-body: envolve o conteudo e aplica algumas margens internas -->
+			<div class="card-body">
+
+				<!-- class row: divide os elementos dentro da div de acordo com o espa�amento de uma linha (12 colunas) -->
+				<div class="row">
+
+					<div class="col-12 col-md-8 mb-3">
+
+						<div class="row">
+							<div class="col-md-5">
+								Valor: <input/>
+							</div>
+							<div class="col-md-7">
+								Data da Entrega: <input/>
+							</div>
+						</div>
+
+						<div>Produto</div>
+						<div>
+							<a v-bind:href="pedido.urlProduto">{{pedido.nomeProduto}}</a>
+						</div>
+
+						<div>Descrição</div>
+
+						<div>
+							<textarea class="form-control">{{pedido.descricao}}</textarea>
+						</div>
+					</div>
+
+					<div class="col-12 col-md-4">
+						<div>
+							<img class="img-thumbnail" v-bind:src="pedido.urlImagem">
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+	<script>
+		function onLoad() {
+			var app = new Vue(
+					{
+						el : '#ofertas',
+						data : {
+							pedidos : [
+									{
+										"nomeProduto" : "Kindle Joao 2",
+										"valorNegociado" : null,
+										"dataEntrega" : null,
+										"urlProduto" : "https://www.magazineluiza.com.br/kindle-10a-geracao-tela-6-8gb-wi-fi-luz-embutida-preto/p/225542900/tb/k10g/?&seller_id=magazineluiza",
+										"urlImagem" : "https://a-static.mlcdn.com.br/800x560/kindle-10a-geracao-tela-6-8gb-wi-fi-luz-embutida-preto/magazineluiza/225542900/7ec51beb6ca3c75cfca514bdd2c60a6f.jpg",
+										"descricao" : "",
+										"status" : "AGUARDANDO"
+									},
+									{
+										"nomeProduto" : "Kindle Maria",
+										"valorNegociado" : null,
+										"dataEntrega" : null,
+										"urlProduto" : "https://www.magazineluiza.com.br/kindle-10a-geracao-tela-6-8gb-wi-fi-luz-embutida-preto/p/225542900/tb/k10g/?&seller_id=magazineluiza",
+										"urlImagem" : "https://a-static.mlcdn.com.br/800x560/kindle-10a-geracao-tela-6-8gb-wi-fi-luz-embutida-preto/magazineluiza/225542900/7ec51beb6ca3c75cfca514bdd2c60a6f.jpg",
+										"descricao" : "",
+										"status" : "AGUARDANDO"
+									},
+									{
+										"nomeProduto" : "Kindle João",
+										"valorNegociado" : 680.00,
+										"dataEntrega" : "2021-05-12",
+										"urlProduto" : "https://www.magazineluiza.com.br/kindle-10a-geracao-tela-6-8gb-wi-fi-luz-embutida-preto/p/225542900/tb/k10g/?&seller_id=magazineluiza",
+										"urlImagem" : "https://a-static.mlcdn.com.br/800x560/kindle-10a-geracao-tela-6-8gb-wi-fi-luz-embutida-preto/magazineluiza/225542900/7ec51beb6ca3c75cfca514bdd2c60a6f.jpg",
+										"descricao" : "",
+										"status" : "AGUARDANDO"
+									} ]
+						}
+					})
+		}
+	</script>
+	<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+
+</body>
+</html>
