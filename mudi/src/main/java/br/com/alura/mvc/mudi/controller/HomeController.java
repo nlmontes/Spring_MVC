@@ -32,6 +32,7 @@ public class HomeController {
 //	@PersistenceContext
 //	private EntityManager em;
 
+	//Model: todo conteúdo inserido através da Model fica acessível pelo thymeleaf
 	// @GetMapping: Informa ao Spring que é uma url
 	@GetMapping //mapeia para /home
 	public String home(Model model, Principal principal) {

@@ -4,10 +4,12 @@
 <head th:replace="~{base :: head}">
 </head>
 
+<!-- onload= faz com que a função onLoad() seja carregada após o carregamento de toda a página -->
 <body onload="onLoad()">
 
 	<div th:replace="~{base :: logo}"></div>
 
+<!-- 	id=permite o gerenciamento desta função/parte do html pelo script vue  -->
 	<div class="container" id="ofertas">
 
 		<div th:replace="~{base :: titulo('Faça sua Oferta')}"></div>
@@ -58,12 +60,16 @@
 	</div>
 
 	<script>
+// 		funçao programada para ser invocada depois que toda a pagina esteja carregada 
 		function onLoad() {
+			//função gerencia/invoca aquela passada no parâmetro el: #ofertas
 			var app = new Vue(
 					{
 						el : '#ofertas',
+						//conteúdo que será acessado pelo código vue js declarado no id #ofertas 
 						data : {
-							pedidos : [
+							pedidos: [ ]
+			/* 				pedidos : [
 									{
 										"nomeProduto" : "Kindle Joao 2",
 										"valorNegociado" : null,
@@ -90,12 +96,20 @@
 										"urlImagem" : "https://a-static.mlcdn.com.br/800x560/kindle-10a-geracao-tela-6-8gb-wi-fi-luz-embutida-preto/magazineluiza/225542900/7ec51beb6ca3c75cfca514bdd2c60a6f.jpg",
 										"descricao" : "",
 										"status" : "AGUARDANDO"
-									} ]
+									} ] */
+									
+						},
+						//mounted: função invocada depois que o view.js renderiza o html
+						mounted () {
+							   axios
+							      .get('http://localhost:8080/api/pedidos/aguardando')
+							      .then(response => (this.pedidos = response.data))
 						}
 					})
 		}
 	</script>
 	<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
 </body>
 </html>
