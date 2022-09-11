@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,8 +25,9 @@ public class OfertasRest {
 	private PedidoRepository pedidoRepository;
 
 	//@RequestBody: informar que o objeto requisicao deve ser preenchido com os valores vindos na requisição
+	//@Valid = integra a execução da validação ao componente a ser validado
 	@PostMapping
-	public Oferta ciraOferta(@RequestBody RequisicaoNovaOferta requisicao) {
+	public Oferta criaOferta(@Valid @RequestBody RequisicaoNovaOferta requisicao) {
 		
 		//final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 

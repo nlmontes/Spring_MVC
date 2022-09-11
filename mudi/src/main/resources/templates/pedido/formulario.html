@@ -14,15 +14,15 @@
 		<div class="card mt-3">
 			<!-- ${} = acessa um objeto (atributo da requisi��o), que � o objeto requisi��oNovoPedido  -->
 			<!-- th:action = @{/uri} = insere o contexto dinamicamente localhost:8080/contexto/uri -->
-			<form th:action="@{/pedido/novo}" th:object="${requisicaoNovoPedido}" class="card-body"
-				method="post">
+			<form th:action="@{/pedido/novo}" th:object="${requisicaoNovoPedido}"
+				class="card-body" method="post">
 				<div class="form-group">
 					<label for="nomeProduto">Produto</label>
-					<!-- *{} = acessa um campo (atributo do objeto), que � o atributo nomeProduto  -->
+					<!-- th:field=*{} = acessa um campo (atributo do objeto), que é o atributo nomeProduto  
+					Controla os parametros do input: name, id e value-->
 					<input th:field="*{nomeProduto}" th:errorclass="is-invalid"
-						class="form-control" name="nomeProduto"
-						placeholder="nome do produto"> <small>Informe qual
-						o nome do produto</small>
+						class="form-control" placeholder="nome do produto"> <small>Informe
+						qual o nome do produto</small>
 					<div class="invalid-feedback" th:errors="*{nomeProduto}">Erros
 						do nome do produto</div>
 				</div>
@@ -32,16 +32,17 @@
 						placeholder="url do produto"> <small>Procure em um
 						site o produto que vc deseja e cole a url da pagina aqui</small>
 					<div class="invalid-feedback" th:errors="*{urlProduto}">Erros
-						do nome do produto</div>
+						da url do produto</div>
 				</div>
 				<div class="form-group">
-					<label for="urlImagem">Imagem</label> <input
+					<label for="urlImagem">Imagem</label> 
+					<input
 						th:field="*{urlImagem}" th:errorclass="is-invalid"
 						class="form-control" name="urlImagem" placeholder="url da imagem">
 					<small>Copie a url da imagem do produto e cole aqui para
 						ajudar a conseguir compradores</small>
 					<div class="invalid-feedback" th:errors="*{urlImagem}">Erros
-						do nome do produto</div>
+						da url da imagem do produto</div>
 				</div>
 				<div class="form-group">
 					<label for="descricao">Descrição</label>
