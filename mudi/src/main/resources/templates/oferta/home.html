@@ -40,25 +40,35 @@
 
 						<div class="row mt-3">
 							<div class="col-md-5">
-								Valor: <input class="form-control" v-model="pedido.valorNegociado" />
+								Valor: <input v-bind:class="{'is-invalid':pedido.erros.valor !==''}" class="form-control"
+									v-model="pedido.valorNegociado" />
+								<div v-if="pedido.erros.valor" class="invalid-feedback">
+									{{pedido.erros.valor}}
+								</div>
 							</div>
 							<div class="col-md-7">
-								Data da Entrega: <input class="form-control" v-model="pedido.dataEntrega" />
+								Data da Entrega: <input v-bind:class="{'is-invalid':pedido.erros.dataDaEntrega !==''}" class="form-control"
+									v-model="pedido.dataEntrega" />
+								<div v-if="pedido.erros.dataDaEntrega" class="invalid-feedback">
+									{{pedido.erros.dataDaEntrega}}
+								</div>
 							</div>
-														
+
 						</div>
 
 						<div class="mt-2">
-							<label>Comentário</label>						
+							<label>Comentário</label>
 							<textarea class="form-control" v-model="pedido.comentario"></textarea>
 						</div>
-						
+
 						<!-- v-if=se valor true, apresenta o botão -->
-						<button v-if="pedido.ofertaEnviada" class="btn btn-success mt-2">Oferta Enviada</button>
-						
+						<button v-if="pedido.ofertaEnviada" class="btn btn-success mt-2">Oferta
+							Enviada</button>
+
 						<!-- v-else=se o valor do if anterior for false, apresenta esse botão -->
 						<!-- v-on:click= invoca o método (enviarOferta) dentro do código VueJs -->
-						<button v-else v-on:click="enviarOferta(pedido)" class="btn btn-primary mt-2">Enviar Oferta</button>
+						<button v-else v-on:click="enviarOferta(pedido)"
+							class="btn btn-primary mt-2">Enviar Oferta</button>
 
 					</div>
 
@@ -118,14 +128,28 @@
 							   axios
 							      .get('http://localhost:8080/api/pedidos/aguardando')
 							      .then(response => {
-							    	//pedido.ofertaEnviada= objejo JS criado em tempo de execução  
-							   		response.data.forEach(pedido => pedido.ofertaEnviada = false) 		  
-							    	this.pedidos = response.data
+							   		response.data.forEach(pedido => {
+							    		//pedido.ofertaEnviada= atributo JS criado em tempo de execução e inserido no pedido
+							   			pedido.ofertaEnviada = false;
+							    		//Atributos criados em tempo de execução e inserido no pedido
+							    		pedido.erros = {
+							    			valor: '',
+							    			dataDaEntrega: ''
+							    		}
+							   		}) 		  
+							    	this.pedidos = response.data;
+							    	//console.log(this.pedidos)
 							      })
 						},
 						//Metodos(funções) invocados pelos comandos (v-on:click) VueJs dentro do html
 						methods: {
 							enviarOferta: function (pedido) {
+					    	
+								pedido.erros = {
+						    			valor: '',
+						    			dataDaEntrega: ''
+						    	};
+								
 								 axios
 							      .post('http://localhost:8080/api/ofertas', {
 							    	/* Valores(objeto Json) passados na requisição post, que serão mapeados para o objeto 
@@ -135,7 +159,12 @@
 							    		dataDaEntrega: pedido.dataEntrega,
 							    		comentario: pedido.comentario
 							      })
-							      .then(response => pedido.ofertaEnviada = true);
+							      .then(response => pedido.ofertaEnviada = true)
+							      .catch(error => {
+							    	  error.response.data.errors.forEach(error => {
+							    		  pedido.erros[error.field] = error.defaultMessage;
+							    	  })
+							      })
 							}
 						}
 					});
